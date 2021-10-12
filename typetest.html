@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Andada+Pro:ital@1&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Andada Pro', serif;
+        }
+
+        ::placeholder {
+            color: rgba(2, 2, 2, 0.589);
+            opacity: 1;
+        }
+
+        .mainDiv {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: rgb(248, 178, 47);
+        }
+
+        .centerDiv {
+            width: 100%;
+            position: absolute;
+            top: 43%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #000;
+            font-size: 2.1rem;
+            border-bottom: 10px solid black;
+            width: 30%;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            background: rgb(179, 63, 63);
+            box-shadow: black 5px 8px 5px;
+            width: 70%;
+            margin: auto;
+            padding: 0.5rem;
+        }
+
+        textarea {
+            background-color: #fae1da;
+            box-shadow: 0 0 10x rgb(0, 0, 0);
+            border-radius: 10px;
+            border: 5px solid #000;
+            color: black;
+            padding: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .mainbtn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 5px solid #070707;
+            background: #ecf0f1;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mainDiv">
+        <div class="centerDiv">
+            <h1>TEST YOUR TYPING SPEED</h1><br>
+            <h2 id="msg">CLICK ON START BUTTON TO TEST YOUR TYPING SPEED!!</h2><br>
+            <textarea name="" id="mywords" cols="110" rows="8" placeholder="TYPE TO TEST...."></textarea>
+            <br><br><br><br>
+            <button id="btn" class="mainbtn">START</button>
+        </div>
+    </div>
+
+
+    <script>
+        const setOfWords = ["Lorem ipsum amet consectetur adipisicing elit. Asperiores, laboriosam!",
+            "nam inventore amet obcaecati reprehenderit sed culpa!",
+            "ulpa maxime deserunt, dicta nihil vel aperiam eligendi?",
+            "Dicta minus quaerat quidem repellat modi velit.",
+            "autem atque ipsam at omnis laboriosam eummagni quis."];
+
+        const msg = document.getElementById('msg');
+        const typeWords = document.getElementById('mywords');
+        const btn = document.getElementById('btn');
+        let startime, endtime;
+
+        const plagame = () => {
+            let rand = Math.floor(Math.random() * (setOfWords.length));
+            msg.innerText = setOfWords[rand];
+            let date = new Date();
+            startime = date.getTime();
+            btn.innerText = "DONE";
+        }
+
+        const endplay = () => {
+            let date = new Date();
+            endtime = date.getTime();
+            let Total = ((endtime - startime) / 1000);
+            let totalstr = typeWords.value;
+            let wordcount = wordcounter(totalstr);
+            let speed = Math.floor((wordcount / Total) * 60);
+            let finishmsg = "Your Type Speed Are " + speed + " Words Per Minute . ";
+            finishmsg += compare(msg.innerText, totalstr);
+            msg.innerText = finishmsg;
+        }
+
+        const compare = (str1, str2) => {
+            let words1 = str1.split(" ");
+            let words2 = str2.split(" ");
+            let count = 0;
+
+            words1.forEach(function (item, index) {
+                if (item == words2[index]) {
+                    count++;
+                }
+            })
+            return ("You Type " + count + " Words Correct Out Of " + words1.length + " Words .");
+        }
+        const wordcounter = (str) => {
+            let res = str.split(" ").length;
+            return res;
+        }
+
+        btn.addEventListener('click', function () {
+            if (this.innerText == 'START') {
+                document.getElementById('mywords').value = '';
+                typeWords.disabled = false;
+                plagame();
+            }
+            else if (this.innerText == "DONE") {
+                typeWords.disabled = true;
+                btn.innerText = "START";
+                endplay();
+            }
+        })
+
+
+    </script>
+
+</body>
+
+</html>
